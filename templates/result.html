@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    {% include 'bootstrap.html' %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type=text/javascript>
+        $(function() {
+          $('a#open_file').on('click', function(e) {
+            e.preventDefault()
+            $.getJSON('/open_patient_file',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+    </script>
+    <script type=text/javascript>
+        $(function() {
+          $('a#test_result').ckeditor(function() {
+            setValue('<p>Some text</p>');
+            });
+            return false;
+          });
+        });
+    </script>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class='container'>
+        <div class="row">
+            <div class="col-sm-3 rounded-3" style="background-color: whitesmoke">
+                <form method="GET" action="{{ url_for('result') }}">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Sl.No</th>
+                          <th scope="col">Hming</th>
+                          <th scope="col">Kum</th>
+                          <th scope="col">Address</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for patient in patients %}
+                        <tr>
+                          <th><a href="/result/{{patient['id']}}">{{patient['sl_no']}}</a></th>
+                          <td><a href="/result/{{patient['id']}}">{{patient['pname']}}</a></td>
+                          <td>{{patient['age']}}</td>
+                          <td>{{patient['address']}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="col-sm-9 rounded-3" style="background-color: white">
+                <h3 style="text-align: center">Patient Details</h3>
+                <form method="GET" action="{{ url_for('result', id=id) }}">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Sl.No</th>
+                          <th scope="col">Hming</th>
+                          <th scope="col">Kum</th>
+                          <th scope="col">Gender</th>
+                          <th scope="col">Address</th>
+                          <th scope="col">Ref Doctor</th>
+                          <th scope="col">Mobile No</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <th>{{spatient['sl_no']}}</th>
+                            <td>{{spatient['pname']}}</td>
+                            <td>{{spatient['age']}}</td>
+                            <td>{{spatient['gender']}}</td>
+                            <td>{{spatient['address']}}</td>
+                            <td>{{spatient['ref_doctor']}}</td>
+                            <td>{{spatient['mobile']}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                </form>
+                <form method="POST" action="/result/{{ spatient['id'] }}">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label for="id">Patient Id</label>
+                            <input type="text" class="form-control"  id="id" name="id" value="{{spatient['id']}}">
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="investigation">Investigation Name</label>
+                            <input type="text" class="form-control"  id="investigation" name="investigation" value="{{spatient['investigation']}}">
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="rate">Rate</label>
+                            <input type="number" class="form-control" id="rate" name="rate" value="{{spatient['rate']}}">
+                        </div>
+                        <div class="col-sm-12">
+                            <label for="test_result">Test Result</label>
+                            <textarea id="test_result" name="test_result" value="{{spatient['test_result']}}"></textarea>
+                        </div>
+                        <div class="col-sm-4">
+                              <a href=# id='open_file'><button class='btn btn-default'>Open File</button></a>
+                        </div>
+                    </div>
+                    <div>
+
+                        <input type="submit">
+                    </div>
+
+                </form>
+                {{ ckeditor.load() }}
+                {{ ckeditor.config(name="test_result") }}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

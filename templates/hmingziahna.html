@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <title>Title</title>
+    {% include 'bootstrap.html' %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3 rounded-3" style="background-color: whitesmoke">
+                {% include 'hmingziahna_entry.html' %}
+            </div>
+            <div class="col-sm-9">
+                <form method="GET" action="{{ url_for('hmingziahna') }}">
+                    <div class="container">
+                    <h4>HMING ZIAH LIST</h4>
+                    <b>
+                    <py-script>
+                        from datetime import datetime
+                        print(f"Date : {datetime.now().date()}")
+                    </py-script>
+                    </b>
+                    <b>Radilogist : Dr. Vanlalhuma Royte</b>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Sl.No</th>
+                          <th scope="col">Hming</th>
+                          <th scope="col">Kum</th>
+                          <th scope="col">Gender</th>
+                          <th scope="col">Address</th>
+                          <th scope="col">Ref Doctor</th>
+                          <th scope="col">Mobile No</th>
+                          <th scope="col">Investigation Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for patient in patients %}
+                        <tr>
+                          <th>{{patient['sl_no']}}</th>
+                          <td>{{patient['pname']}}</td>
+                          <td>{{patient['age']}}</td>
+                          <td>{{patient['gender']}}</td>
+                          <td>{{patient['address']}}</td>
+                          <td>{{patient['ref_doctor']}}</td>
+                          <td>{{patient['mobile']}}</td>
+                          <td>{{patient['investigation']}}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
